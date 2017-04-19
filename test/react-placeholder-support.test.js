@@ -1,8 +1,9 @@
 import React from 'react';
-import ReactPlaceholderSupport from '../src/react-placeholder-support';
+import createShimmedElement from '../src/react-placeholder-support';
 import renderer from 'react-test-renderer';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 
+// Mock createElement for doesn't support placholder
 const createElement = document.createElement;
 const spy = jest.fn((inp) => {
   if (inp === 'input') {
@@ -12,7 +13,9 @@ const spy = jest.fn((inp) => {
   return createElement(inp);
 });
 document.createElement = spy;
-const Textarea = ReactPlaceholderSupport('textarea');
+// end mock
+
+const Textarea = createShimmedElement('textarea');
 
 describe('render snapshots', () => {
   test('set value like placeholder', () => {
@@ -33,11 +36,8 @@ describe('render snapshots', () => {
 });
 
 describe('react placeholder support', () => {
-
   describe('constructor', () => {
     test('displayName', () => {
-      const Textarea = ReactPlaceholderSupport('textarea');
-
       expect(Textarea.displayName).toBe('Textarea')
     });
 
@@ -68,16 +68,17 @@ describe('react placeholder support', () => {
 
       expect(textarea.instance().needsPlaceholding).toBeFalsy();
     });
-  })
+  });
 
   describe('after componentDidUpdate', () => {
     test('setSelectionIfNeeded be called', () => {
       const textarea = shallow(
         React.createElement(Textarea, { placeholder: "placeholder" })
       );
-      const fakeSetSelection = jest.spyOn(textarea.instance(), 'setSelectionIfNeeded')
+      const instance = textarea.instance();
+      const fakeSetSelection = jest.spyOn(instance, 'setSelectionIfNeeded');
 
-      textarea.instance().componentDidUpdate();
+      instance.componentDidUpdate();
 
       expect(fakeSetSelection).toHaveBeenCalled();
     });
@@ -88,19 +89,21 @@ describe('react placeholder support', () => {
       const textarea = shallow(
         React.createElement(Textarea, { placeholder: "placeholder" })
       );
-      expect(textarea.instance().hasFocus).toBeFalsy();
+      const instance = textarea.instance();
+      expect(instance.hasFocus).toBeFalsy();
 
-      textarea.instance().onFocus({ target: 'something' });
-      expect(textarea.instance().hasFocus).toBeTruthy();
+      instance.onFocus({ target: 'something' });
+      expect(instance.hasFocus).toBeTruthy();
     });
 
     test('setSelectionIfNeeded be called', () => {
       const textarea = shallow(
         React.createElement(Textarea, { placeholder: "placeholder" })
       );
-      const fakeSetSelection = jest.spyOn(textarea.instance(), 'setSelectionIfNeeded')
+      const instance = textarea.instance();
+      const fakeSetSelection = jest.spyOn(instance, 'setSelectionIfNeeded');
 
-      textarea.instance().onFocus({ target: 'something' });
+      instance.onFocus({ target: 'something' });
 
       expect(fakeSetSelection).toHaveBeenCalled();
     });
@@ -122,10 +125,12 @@ describe('react placeholder support', () => {
       const textarea = shallow(
         React.createElement(Textarea, { placeholder: "placeholder" })
       );
-      textarea.instance().hasFocus = true;
+      const instance = textarea.instance();
 
-      textarea.instance().onBlur({ target: 'something' });
-      expect(textarea.instance().hasFocus).toBeFalsy();
+      instance.hasFocus = true;
+
+      instance.onBlur({ target: 'something' });
+      expect(instance.hasFocus).toBeFalsy();
     });
 
     test('onBlur from props called', () => {
@@ -150,10 +155,11 @@ describe('react placeholder support', () => {
         selectionEnd: 0,
         setSelectionRange: jest.fn()
       };
-      textarea.instance().needsPlaceholding = true;
-      textarea.instance().hasFocus = true;
-      textarea.instance().needsPlaceholding = true;
-      expect(textarea.instance().setSelectionIfNeeded(node)).toBeTruthy();
+      const instance = textarea.instance();
+      instance.needsPlaceholding = true;
+      instance.hasFocus = true;
+      instance.needsPlaceholding = true;
+      expect(instance.setSelectionIfNeeded(node)).toBeTruthy();
       expect(node.setSelectionRange).toBeCalled();
     });
 
@@ -187,8 +193,9 @@ describe('react placeholder support', () => {
       );
       const fakeEvent = { target: { value: '5placeholder' } };
 
-      textarea.instance().isPlaceholding = true;
-      textarea.instance().onChange(fakeEvent);
+      const instance = textarea.instance();
+      instance.isPlaceholding = true;
+      instance.onChange(fakeEvent);
 
       expect(fakeEvent.target.value).toEqual('5');
 
@@ -200,19 +207,21 @@ describe('react placeholder support', () => {
       const textarea = shallow(
         React.createElement(Textarea, { placeholder: "placeholder" })
       );
-      const fakeSetSelection = jest.spyOn(textarea.instance(), 'setSelectionIfNeeded')
+      const instance = textarea.instance();
+      const fakeSetSelection = jest.spyOn(instance, 'setSelectionIfNeeded');
 
-      expect(textarea.instance().onSelect({ target: 'something' })).toBeFalsy();
+      expect(instance.onSelect({ target: 'something' })).toBeFalsy();
       expect(fakeSetSelection).toHaveBeenCalled();
-    })
+    });
 
     test('onSelect from props called', () => {
       const onSelect = jest.fn();
       const textarea = shallow(
         React.createElement(Textarea, { placeholder: "placeholder", onSelect })
       );
-      textarea.instance().isPlaceholding = false;
-      textarea.instance().onSelect({ target: 'something' })
+      const instance = textarea.instance();
+      instance.isPlaceholding = false;
+      instance.onSelect({ target: 'something' });
 
       expect(onSelect).toHaveBeenCalled();
     })

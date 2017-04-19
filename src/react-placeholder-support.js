@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 
 const createShimmedElement = (elementName) => {
   const isPlaceholderSupported = (typeof document !== 'undefined') && 'placeholder' in document.createElement('input');
+
   return class PlaceholderPolyfill extends Component {
     static displayName = elementName.replace(/^(.)/, c => c.toUpperCase());
+    static defaultProps = {
+      className: '',
+    };
 
     constructor(props) {
       super(props);
@@ -95,9 +99,12 @@ const createShimmedElement = (elementName) => {
           onBlur: this.onBlur,
           onChange: this.onChange,
           onSelect: this.onSelect,
-          value: value ? value : this.props.placeholder,
-          type: !value ? 'text' : this.props.type,
-          className: !value ? this.props.className + ' placeholder' : this.props.className
+        };
+
+        if (!value) {
+          newProps.value = newProps.placeholder;
+          newProps.type = 'text';
+          newProps.className = newProps.className + ' placeholder';
         }
       }
 

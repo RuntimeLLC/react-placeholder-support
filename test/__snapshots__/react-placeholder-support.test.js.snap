@@ -2,20 +2,19 @@
 
 exports[`render snapshots set value 1`] = `
 <textarea
-  className={undefined}
+  className=""
   onBlur={[Function]}
   onChange={[Function]}
   onFocus={[Function]}
   onSelect={[Function]}
   placeholder="placeholder"
-  type={undefined}
   value="value"
 />
 `;
 
 exports[`render snapshots set value like placeholder 1`] = `
 <textarea
-  className="undefined placeholder"
+  className=" placeholder"
   onBlur={[Function]}
   onChange={[Function]}
   onFocus={[Function]}
