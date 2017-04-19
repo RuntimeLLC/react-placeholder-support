@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "production": "babel src --out-dir dist"
+    "prepublish": "babel src --out-dir dist"
   },
   "keywords": [
     "placeholder",
@@ -29,6 +29,6 @@
     "react-test-renderer": "^15.5.4"
   },
   "optionalDependencies": {
-    "react": "^15.5.4"
+    "react": "^15.5.0"
   }
 }
