@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render snapshots set value 1`] = `
+<textarea
+  className={undefined}
+  onBlur={[Function]}
+  onChange={[Function]}
+  onFocus={[Function]}
+  onSelect={[Function]}
+  placeholder="placeholder"
+  type={undefined}
+  value="value"
+/>
+`;
+
+exports[`render snapshots set value like placeholder 1`] = `
+<textarea
+  className="undefined placeholder"
+  onBlur={[Function]}
+  onChange={[Function]}
+  onFocus={[Function]}
+  onSelect={[Function]}
+  placeholder="placeholder"
+  type="text"
+  value="placeholder"
+/>
+`;
