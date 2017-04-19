@@ -1,7 +1,7 @@
 {
   "name": "react-placeholder-support",
   "version": "1.0.0",
-  "description": "Input and Textarea React placeholder support",
+  "description": "Input and Textarea React placeholder support component",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -30,7 +30,5 @@
   },
   "optionalDependencies": {
     "react": "^15.5.4"
-  },
-  "dependencies": {
   }
 }

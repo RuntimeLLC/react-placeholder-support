@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-const createShimmedElement = (elementName) => {
+const ReactPlaceholderSupport = (elementName) => {
   const isPlaceholderSupported = (typeof document !== 'undefined') && 'placeholder' in document.createElement('input');
 
-  return class PlaceholderPolyfill extends Component {
+  return class PlaceholderSupport extends Component {
     static displayName = elementName.replace(/^(.)/, c => c.toUpperCase());
     static defaultProps = {
       className: '',
@@ -116,4 +116,4 @@ const createShimmedElement = (elementName) => {
   }
 };
 
-export default createShimmedElement;
+export default ReactPlaceholderSupport;
