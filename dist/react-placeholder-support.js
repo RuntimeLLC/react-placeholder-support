@@ -20,17 +20,18 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var createShimmedElement = function createShimmedElement(elementName) {
+var ReactPlaceholderSupport = function ReactPlaceholderSupport(elementName) {
   var _class, _temp, _initialiseProps;
 
   var isPlaceholderSupported = typeof document !== 'undefined' && 'placeholder' in document.createElement('input');
+
   return _temp = _class = function (_Component) {
-    _inherits(PlaceholderPolyfill, _Component);
+    _inherits(PlaceholderSupport, _Component);
 
-    function PlaceholderPolyfill(props) {
-      _classCallCheck(this, PlaceholderPolyfill);
+    function PlaceholderSupport(props) {
+      _classCallCheck(this, PlaceholderSupport);
 
-      var _this = _possibleConstructorReturn(this, (PlaceholderPolyfill.__proto__ || Object.getPrototypeOf(PlaceholderPolyfill)).call(this, props));
+      var _this = _possibleConstructorReturn(this, (PlaceholderSupport.__proto__ || Object.getPrototypeOf(PlaceholderSupport)).call(this, props));
 
       _initialiseProps.call(_this);
 
@@ -41,7 +42,7 @@ var createShimmedElement = function createShimmedElement(elementName) {
     // keep track of focus
 
 
-    _createClass(PlaceholderPolyfill, [{
+    _createClass(PlaceholderSupport, [{
       key: 'render',
       value: function render() {
         var value = void 0;
@@ -56,11 +57,14 @@ var createShimmedElement = function createShimmedElement(elementName) {
             onFocus: this.onFocus,
             onBlur: this.onBlur,
             onChange: this.onChange,
-            onSelect: this.onSelect,
-            value: value ? value : this.props.placeholder,
-            type: !value ? 'text' : this.props.type,
-            className: !value ? this.props.className + ' placeholder' : this.props.className
+            onSelect: this.onSelect
           });
+
+          if (!value) {
+            newProps.value = newProps.placeholder;
+            newProps.type = 'text';
+            newProps.className = newProps.className + ' placeholder';
+          }
         }
 
         var element = _react2.default.createElement(elementName, newProps || this.props, this.props.children);
@@ -70,10 +74,12 @@ var createShimmedElement = function createShimmedElement(elementName) {
       }
     }]);
 
-    return PlaceholderPolyfill;
+    return PlaceholderSupport;
   }(_react.Component), _class.displayName = elementName.replace(/^(.)/, function (c) {
     return c.toUpperCase();
-  }), _initialiseProps = function _initialiseProps() {
+  }), _class.defaultProps = {
+    className: ''
+  }, _initialiseProps = function _initialiseProps() {
     var _this2 = this;
 
     this.componentWillReceiveProps = function (props) {
@@ -142,4 +148,4 @@ var createShimmedElement = function createShimmedElement(elementName) {
   }, _temp;
 };
 
-exports.default = createShimmedElement;
+exports.default = ReactPlaceholderSupport;
