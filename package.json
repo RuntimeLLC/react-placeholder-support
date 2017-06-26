@@ -2,7 +2,7 @@
   "name": "react-placeholder-support",
   "version": "1.0.0",
   "description": "Input and Textarea React placeholder support",
-  "main": "index.js",
+  "main": "dist/react-placeholder-support.js",
   "scripts": {
     "test": "jest",
     "prepublish": "babel src --out-dir dist"
