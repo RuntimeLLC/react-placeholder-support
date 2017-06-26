@@ -16,8 +16,10 @@ yarn add react-placeholder-support
 ## Usage
 
 ```js
-Input = require('react-placeholder-support')('input')
-Textarea = require('react-placeholder-support')('textarea')
+import ReactPlaceholderSupport from 'react-placeholder-support';
+
+Input = ReactPlaceholderSupport('input')
+Textarea = ReactPlaceholderSupport('textarea')
 ```
 
 ```html
